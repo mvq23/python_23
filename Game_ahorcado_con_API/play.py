@@ -1,5 +1,10 @@
 import requests
 from random import choice
+from colorama import Fore, Style
+# Colores para los print
+red_text = "\033[91m"  # Texto rojo
+green_text = "\033[92m"  # Texto verde
+reset_color = "\033[0m"  # Resetear los estilos de color
 
 # Realiza una solicitud GET a la API
 response = requests.get('https://clientes.api.greenborn.com.ar/public-random-word')
@@ -41,7 +46,7 @@ def ask_for_a_letter ():
         if chosen_letter in alphabet and len(chosen_letter) == 1:
             valid_letter = True
         else:
-            print("No has elegido una letra valida")
+            print("La letra no esta en la palabra")
 
     return chosen_letter
 
@@ -68,7 +73,6 @@ def check_letter(chosen_letter, hidden_word, lives, coincidences):
     else:
         wrong_letters.append(chosen_letter)
         lives -= 1
-
     if lives == 0:
         end = lose()
     elif coincidences == unique_letters:
@@ -77,15 +81,15 @@ def check_letter(chosen_letter, hidden_word, lives, coincidences):
     return lives,end,coincidences
 
 def lose():
-    print("Te has quedado sin vidas.")
+
+    print(Fore.RED + "Te has quedado sin vidas." + Style.RESET_ALL)
     print("La palabra correcta era: " + hidden_word.upper())
 
     return True
 
 def win(discovered_word):
     show_new_board(discovered_word)
-    print("GANASTE!!! Has descubierto la palabra!!!")
-
+    print(Fore.LIGHTBLUE_EX + "GANASTE!!! Has adivinado la palabra!!!" + Style.RESET_ALL)
     return True
 
 hidden_word, unique_letters = select_words(guess)
@@ -95,10 +99,16 @@ while not game_over:
     show_new_board(hidden_word)
     print('\n')
     print('Letras incorrectas: ' + '-'.join(wrong_letters).upper())
-    print(f'Vidas: {attempts}')
+    if attempts == 1:
+        print(Fore.RED + "¡Cuidado! Te queda 1 vida." + Style.RESET_ALL)
+    else:
+        print(f'Vidas: {attempts}')
     print('\n' + '*' * 40 + '\n')
+
+    coincidences = 0 # Reinicia el contador de coincidencias
     letter = ask_for_a_letter()
+    attempts, finished, hits = check_letter(letter, hidden_word, attempts, hits)
 
-    attempts, finished, hits = check_letter(letter,hidden_word,attempts, hits)
-
+    # Actualizo la palabra oculta después de cada intento
+    hidden_word, _ = select_words(guess)
     game_over = finished

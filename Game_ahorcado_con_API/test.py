@@ -1,9 +1,5 @@
-import requests
-from random import choice
+red_text = "\033[91m"  # Texto rojo
+reset_color = "\033[0m"  # Resetear los estilos de color
 
-
-# Realiza una solicitud GET a la API
-response = requests.get('https://clientes.api.greenborn.com.ar/public-random-word')
-data = response.json()
-word = data
-print (word)
+print(red_text + "Te has quedado sin vidas.")
+print(reset_color + "La palabra correcta era: ")
