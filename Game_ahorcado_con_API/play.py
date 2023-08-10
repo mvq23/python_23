@@ -1,7 +1,7 @@
 import requests
 from random import choice
 from colorama import Fore, Style
-# Colores para los print
+# Colores para los print sin usar COLORAMA
 red_text = "\033[91m"  # Texto rojo
 green_text = "\033[92m"  # Texto verde
 reset_color = "\033[0m"  # Resetear los estilos de color
