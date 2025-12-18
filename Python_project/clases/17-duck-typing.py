@@ -1,18 +1,12 @@
-from abc import ABC, abstractmethod
-class Model(ABC):
-    @abstractmethod
-    def guardar(self):
-        pass
-
-class Usuario(Model):
+class Usuario():
     def guardar(self):
         print("Guardando usuario en la base de datos")
 
-class Sesion(Model):
+class Sesion():
     def guardar(self):
         print("Guardando sesión en archivo")
 
-def guardar(entidades):
+def guardar(entidades):#entidad es una lista
     for entidad in entidades:
         entidad.guardar()
 
